@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "304640100606",
+    "project_id": "chatapp-b50ca",
+    "storage_bucket": "chatapp-b50ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304640100606:android:180c502ee677c63756fdaf",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304640100606-hjapdoro41r1aj6gej15jurea9qael5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNhqA4yatvssxwqppLl5htquhh3Iw_N9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304640100606-hjapdoro41r1aj6gej15jurea9qael5b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
