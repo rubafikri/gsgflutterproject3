@@ -48,6 +48,10 @@ class Register_Page extends StatelessWidget {
                     ),
                   ),
                 ),
+                CustomTextfield('FirstName', provider.firstName),
+                CustomTextfield('LastName', provider.lastName),
+                CustomTextfield('Country', provider.country),
+                CustomTextfield('city', provider.city),
                 CustomTextfield('Email', provider.emailController),
                 CustomTextfield('Password', provider.passwordController),
                 GestureDetector(
