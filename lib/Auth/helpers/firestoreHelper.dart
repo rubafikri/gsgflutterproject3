@@ -8,9 +8,15 @@ class FirestoreHelper {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   addUserToFirestore(RegisterRequest registerRequest) async {
-    DocumentReference documentReference = await firebaseFirestore
+    await firebaseFirestore
         .collection('Users')
-        .add(registerRequest.toMap());
-    print(documentReference.id);
+        .doc(registerRequest.id)
+        .set(registerRequest.toMap());
+  }
+
+  getUserFromFirestore(String id) async {
+    DocumentSnapshot documentSnapshot =
+        await firebaseFirestore.collection('Users').doc(id).get();
+    print(documentSnapshot.data());
   }
 }

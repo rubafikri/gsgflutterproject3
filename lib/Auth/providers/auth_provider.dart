@@ -41,7 +41,7 @@ class AuthProvider extends ChangeNotifier {
       await AuthHelper.authHelper.logout();
       RouteHelper.routeHelper.goToPage(Login_Page.routeName);
     } on Exception catch (e) {
-      // TODO
+      print(e);
     }
 // navigate to login
 
@@ -49,16 +49,18 @@ class AuthProvider extends ChangeNotifier {
   }
 
   login() async {
-    await AuthHelper.authHelper
+    UserCredential userCredential = await AuthHelper.authHelper
         .signin(emailController.text, passwordController.text);
-    bool isVerifiedEmail = AuthHelper.authHelper.checkEmailVerification();
-    if (isVerifiedEmail) {
-      RouteHelper.routeHelper.goToPageWithReplacement(HomePage.routeName);
-    } else {
-      CustomDialoug.customDialoug.showCustomDialoug(
-          'You have to verify your email, press ok to send another email',
-          sendVericiafion);
-    }
+    // bool isVerifiedEmail = AuthHelper.authHelper.checkEmailVerification();
+    // if (isVerifiedEmail) {
+    FirestoreHelper.firestoreHelper
+        .getUserFromFirestore(userCredential.user.uid);
+    RouteHelper.routeHelper.goToPageWithReplacement(HomePage.routeName);
+    // } else {
+    //   CustomDialoug.customDialoug.showCustomDialoug(
+    //       'You have to verify your email, press ok to send another email',
+    //       sendVericiafion);
+    // }
     resetControllers();
   }
 
