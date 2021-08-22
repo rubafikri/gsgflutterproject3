@@ -73,4 +73,8 @@ class AuthProvider extends ChangeNotifier {
     AuthHelper.authHelper.resetPassword(emailController.text);
     resetControllers();
   }
+
+  checkUser() {
+    return AuthHelper.authHelper.checkUser();
+  }
 }

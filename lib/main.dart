@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/services/routes_helper.dart';
+import 'package:flutter_application_2/splashScreen.dart';
 import 'package:provider/provider.dart';
 
 import 'Auth/providers/auth_provider.dart';
@@ -40,7 +41,7 @@ class FirebaseConfiguration extends StatelessWidget {
             );
           }
           if (dataSnapShot.connectionState == ConnectionState.done) {
-            return Register_Page();
+            return SplachScreen();
           }
           return Scaffold(
             body: Center(

@@ -59,4 +59,8 @@ class AuthHelper {
   bool checkEmailVerification() {
     return firebaseAuth.currentUser?.emailVerified ?? false;
   }
+
+  bool checkUser() {
+    return firebaseAuth.currentUser != null;
+  }
 }
