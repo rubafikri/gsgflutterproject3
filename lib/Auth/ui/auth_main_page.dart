@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/Auth/providers/auth_provider.dart';
-import 'package:flutter_application_2/Auth/ui/Register.dart';
-import 'package:flutter_application_2/Auth/ui/loginPage.dart';
+import 'package:flutter_application_2/Auth/ui/register_page.dart';
 
 import 'package:provider/provider.dart';
 
+import 'login_page.dart';
+
 class AuthMainPage extends StatefulWidget {
+  static final routeName = 'AuthMain';
+
   @override
   _AuthMainPageState createState() => _AuthMainPageState();
 }
@@ -38,7 +41,7 @@ class _AuthMainPageState extends State<AuthMainPage>
         ),
         body: TabBarView(
           controller: Provider.of<AuthProvider>(context).tabController,
-          children: [Register_Page(), Login_Page()],
+          children: [RegisterPage(), LoginPage()],
         ));
   }
 }

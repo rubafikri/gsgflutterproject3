@@ -9,13 +9,12 @@ class CustomTextfield extends StatelessWidget {
     // TODO: implement build
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: TextField(
         controller: this.controller,
         decoration: InputDecoration(
             labelText: this.label,
             border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
       ),
     );
   }

@@ -24,6 +24,10 @@ class AuthHelper {
     }
   }
 
+  String getUserId() {
+    return firebaseAuth.currentUser.uid;
+  }
+
   Future<UserCredential> signin(String email, String password) async {
     try {
       UserCredential userCredential = await firebaseAuth
@@ -60,7 +64,11 @@ class AuthHelper {
     return firebaseAuth.currentUser?.emailVerified ?? false;
   }
 
-  bool checkUser() {
-    return firebaseAuth.currentUser != null;
+  bool checkUserLogin() {
+    if (firebaseAuth.currentUser == null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

@@ -12,16 +12,12 @@ class CustomButton extends StatelessWidget {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: RaisedButton(
-        color: Colors.pink[300],
+        color: Colors.greenAccent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         onPressed: () {
           function();
         },
-        child: Text(
-          label,
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+        child: Text(label),
       ),
     );
   }
