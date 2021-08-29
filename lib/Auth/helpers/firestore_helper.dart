@@ -1,13 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_2/Auth/helpers/auth_helper.dart';
 import 'package:flutter_application_2/Auth/models/country_model.dart';
 import 'package:flutter_application_2/Auth/models/register_request.dart';
 import 'package:flutter_application_2/Auth/models/user_model.dart';
-import 'package:flutter_application_2/chats/users.dart';
 
 class FirestoreHelper {
   FirestoreHelper._();
   static FirestoreHelper firestoreHelper = FirestoreHelper._();
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getFirstoreStream() {
+    return firebaseFirestore.collection('Chats').snapshots();
+  }
+
+  addMessageTofirestore(Map map) async {
+    firebaseFirestore
+        .collection('Chats')
+        .add({...map, 'userId': AuthHelper.authHelper.getUserId()});
+  }
+
   addUserToFirestore(RegisterRequest registerRequest) async {
     try {
       // await firebaseFirestore.collection('Users').add(registerRequest.toMap());
@@ -47,8 +58,13 @@ class FirestoreHelper {
         return CountryModel.fromJson(map);
       }).toList();
       return countries;
-    } on Exception catch (e) {
-      // TODO
-    }
+    } on Exception catch (e) {}
+  }
+
+  updateProfile(UserModel userModel) async {
+    await firebaseFirestore
+        .collection('Users')
+        .doc(userModel.id)
+        .update(userModel.toMap());
   }
 }

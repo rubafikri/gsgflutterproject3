@@ -4,7 +4,6 @@ import 'package:flutter_application_2/Auth/ui/reset_password_page.dart';
 import 'package:flutter_application_2/Auth/ui/widgets/custom_textField.dart';
 import 'package:flutter_application_2/global_widgets/custom_button.dart';
 import 'package:flutter_application_2/services/routes_helper.dart';
-
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {

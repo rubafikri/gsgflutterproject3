@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/Auth/providers/auth_provider.dart';
 import 'package:flutter_application_2/Auth/ui/register_page.dart';
-
 import 'package:provider/provider.dart';
 
 import 'login_page.dart';
 
 class AuthMainPage extends StatefulWidget {
-  static final routeName = 'AuthMain';
-
+  static final String routeName = 'authPage';
   @override
   _AuthMainPageState createState() => _AuthMainPageState();
 }

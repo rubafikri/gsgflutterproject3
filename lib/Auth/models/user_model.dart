@@ -8,15 +8,15 @@ class UserModel {
   String fName;
   String lName;
   String imageUrl;
-
-  UserModel(
-      {@required this.id,
-      @required this.email,
-      @required this.city,
-      @required this.country,
-      @required this.fName,
-      @required this.lName,
-      @required this.imageUrl});
+  UserModel({
+    @required this.id,
+    @required this.email,
+    @required this.city,
+    @required this.country,
+    @required this.fName,
+    @required this.lName,
+    @required this.imageUrl,
+  });
 
   UserModel.fromMap(Map map) {
     this.id = map['id'];
@@ -26,5 +26,21 @@ class UserModel {
     this.fName = map['fName'];
     this.lName = map['lName'];
     this.imageUrl = map['imageUrl'];
+  }
+  toMap() {
+    return imageUrl == null
+        ? {
+            'city': this.city,
+            'country': this.country,
+            'fName': this.fName,
+            'lName': this.lName,
+          }
+        : {
+            'city': this.city,
+            'country': this.country,
+            'fName': this.fName,
+            'lName': this.lName,
+            'imageUrl': this.imageUrl
+          };
   }
 }

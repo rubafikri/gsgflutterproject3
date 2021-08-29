@@ -1,18 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/chats/profile.dart';
-import 'package:flutter_application_2/chats/users.dart';
-import 'package:flutter_application_2/services/routes_helper.dart';
-import 'package:flutter_application_2/splash.dart';
+import 'package:flutter_application_2/chats/chat_page.dart';
+import 'package:flutter_application_2/chats/users_page.dart';
+import 'package:flutter_application_2/splach_screen.dart';
+
 import 'package:provider/provider.dart';
 
 import 'Auth/providers/auth_provider.dart';
 import 'Auth/ui/auth_main_page.dart';
-
 import 'Auth/ui/login_page.dart';
 import 'Auth/ui/register_page.dart';
 import 'Auth/ui/reset_password_page.dart';
 import 'chats/home_page.dart';
+import 'chats/profile_page.dart';
+import 'services/routes_helper.dart';
 
 void main() {
   runApp(ChangeNotifierProvider<AuthProvider>(
@@ -24,8 +25,9 @@ void main() {
             ResetPasswordPage.routeName: (context) => ResetPasswordPage(),
             HomePage.routeName: (context) => HomePage(),
             AuthMainPage.routeName: (context) => AuthMainPage(),
-            Profile.routeName: (context) => Profile(),
-            Users.routeName: (context) => Users(),
+            UsersPage.routeName: (context) => UsersPage(),
+            ProfilePage.routeName: (context) => ProfilePage(),
+            ChatPage.routName: (context) => ChatPage(),
           },
           navigatorKey: RouteHelper.routeHelper.navKey,
           home: FirebaseConfiguration())));
@@ -47,7 +49,7 @@ class FirebaseConfiguration extends StatelessWidget {
             );
           }
           if (dataSnapShot.connectionState == ConnectionState.done) {
-            return SplashScreen();
+            return SplachScreen();
           }
           return Scaffold(
             body: Center(

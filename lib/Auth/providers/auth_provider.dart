@@ -10,11 +10,14 @@ import 'package:flutter_application_2/Auth/models/country_model.dart';
 import 'package:flutter_application_2/Auth/models/register_request.dart';
 import 'package:flutter_application_2/Auth/models/user_model.dart';
 import 'package:flutter_application_2/Auth/ui/auth_main_page.dart';
+import 'package:flutter_application_2/chats/chat_page.dart';
 import 'package:flutter_application_2/chats/home_page.dart';
 import 'package:flutter_application_2/services/routes_helper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AuthProvider extends ChangeNotifier {
+  List<UserModel> users;
+  String myId;
   AuthProvider() {
     getCountriesFromFirestore();
   }
@@ -25,10 +28,17 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController cituController = TextEditingController();
-  UserModel userModel;
+
+  getAllUsers() async {
+    users = await FirestoreHelper.firestoreHelper.getAllUsersFromFirestore();
+    users.removeWhere((element) => element.id == myId);
+    notifyListeners();
+  }
+
+  UserModel user;
   getUserFromFirestore() async {
-    String uid = AuthHelper.authHelper.getUserId();
-    userModel = await FirestoreHelper.firestoreHelper.getUserFromFirestore(uid);
+    String userId = AuthHelper.authHelper.getUserId();
+    user = await FirestoreHelper.firestoreHelper.getUserFromFirestore(userId);
     notifyListeners();
   }
 
@@ -99,6 +109,11 @@ class AuthProvider extends ChangeNotifier {
     resetControllers();
   }
 
+  logout() async {
+    await AuthHelper.authHelper.logout();
+    RouteHelper.routeHelper.goToPageWithReplacement(AuthMainPage.routeName);
+  }
+
   login() async {
     UserCredential userCredinial = await AuthHelper.authHelper
         .signin(emailController.text, passwordController.text);
@@ -126,16 +141,55 @@ class AuthProvider extends ChangeNotifier {
   }
 
   checkLogin() {
-    bool isLogged = AuthHelper.authHelper.checkUserLogin();
-    if (isLogged) {
-      RouteHelper.routeHelper.goToPage(HomePage.routeName);
+    bool isLoggedIn = AuthHelper.authHelper.checkUserLoging();
+    print(FirebaseAuth.instance.currentUser);
+    if (isLoggedIn) {
+      this.myId = AuthHelper.authHelper.getUserId();
+      getAllUsers();
+      RouteHelper.routeHelper.goToPageWithReplacement(ChatPage.routName);
     } else {
-      RouteHelper.routeHelper.goToPage(AuthMainPage.routeName);
+      RouteHelper.routeHelper.goToPageWithReplacement(AuthMainPage.routeName);
     }
   }
 
-  logout() async {
-    await AuthHelper.authHelper.logout();
-    RouteHelper.routeHelper.goToPage(AuthMainPage.routeName);
+  fillControllers() {
+    emailController.text = user.email;
+    firstNameController.text = user.fName;
+    lastNameController.text = user.lName;
+    countryController.text = user.country;
+    cituController.text = user.city;
+  }
+
+  File updatedFile;
+  captureUpdateProfileImage() async {
+    XFile file = await ImagePicker().pickImage(source: ImageSource.gallery);
+    this.updatedFile = File(file.path);
+    notifyListeners();
+  }
+
+  updateProfile() async {
+    String imageUrl;
+    if (updatedFile != null) {
+      imageUrl = await FirebaseStorageHelper.firebaseStorageHelper
+          .uploadImage(updatedFile);
+    }
+    UserModel userModel = imageUrl == null
+        ? UserModel(
+            city: cituController.text,
+            country: countryController.text,
+            fName: firstNameController.text,
+            lName: lastNameController.text,
+            id: user.id)
+        : UserModel(
+            city: cituController.text,
+            country: countryController.text,
+            fName: firstNameController.text,
+            lName: lastNameController.text,
+            id: user.id,
+            imageUrl: imageUrl);
+
+    await FirestoreHelper.firestoreHelper.updateProfile(userModel);
+    getUserFromFirestore();
+    Navigator.of(RouteHelper.routeHelper.navKey.currentContext).pop();
   }
 }

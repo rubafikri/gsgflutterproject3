@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/Auth/helpers/auth_helper.dart';
 import 'package:flutter_application_2/Auth/models/country_model.dart';
 import 'package:flutter_application_2/Auth/providers/auth_provider.dart';
 import 'package:flutter_application_2/Auth/ui/widgets/custom_textField.dart';
 import 'package:flutter_application_2/global_widgets/custom_button.dart';
+
 import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {

@@ -1,16 +1,18 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/Auth/helpers/firestore_helper.dart';
 import 'package:flutter_application_2/Auth/providers/auth_provider.dart';
+import 'package:flutter_application_2/chats/update_profile.dart';
 import 'package:provider/provider.dart';
 
-class Profile extends StatefulWidget {
-  static final routeName = 'Profile';
+class ProfilePage extends StatefulWidget {
+  static final routeName = 'profile';
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     // TODO: implement initState
@@ -28,15 +30,24 @@ class _ProfileState extends State<Profile> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Provider.of<AuthProvider>(context, listen: false).logout();
+                  Provider.of<AuthProvider>(context, listen: false)
+                      .fillControllers();
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return UpdateProgile();
+                  }));
                 },
                 icon: Icon(Icons.edit)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.logout))
+            IconButton(
+                onPressed: () {
+                  Provider.of<AuthProvider>(context, listen: false).logout();
+                },
+                icon: Icon(Icons.logout))
           ],
         ),
         body: Consumer<AuthProvider>(
           builder: (context, provider, x) {
-            return provider.userModel == null
+            return provider.user == null
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
@@ -48,14 +59,13 @@ class _ProfileState extends State<Profile> {
                       ),
                       CircleAvatar(
                         radius: 80,
-                        backgroundImage: NetworkImage(
-                            'https://firebasestorage.googleapis.com/v0/b/chatapp-b50ca.appspot.com/o/images%2Fprofiles%2Fimage_picker8541357376011461990.jpg?alt=media&token=c7f644dd-59de-410e-8282-ed780582f27a'),
+                        backgroundImage: NetworkImage(provider.user.imageUrl),
                       ),
-                      ItemWidget('First Name', provider.userModel.fName),
-                      ItemWidget('Last Name', provider.userModel.lName),
-                      ItemWidget('Email', provider.userModel.email),
-                      ItemWidget('City', provider.userModel.city),
-                      ItemWidget('Country', provider.userModel.country),
+                      ItemWidget('Email', provider.user.email),
+                      ItemWidget('first Name', provider.user.fName),
+                      ItemWidget('last Name', provider.user.lName),
+                      ItemWidget('country Name', provider.user.country),
+                      ItemWidget('city Name', provider.user.city),
                     ],
                   );
           },
@@ -69,13 +79,14 @@ class ItemWidget extends StatelessWidget {
   ItemWidget(this.label, this.value);
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 22),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
           ),
           Text(
             value,
@@ -84,9 +95,9 @@ class ItemWidget extends StatelessWidget {
         ],
       ),
       margin: EdgeInsets.all(10),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: Colors.white),
+          color: Colors.white, borderRadius: BorderRadius.circular(15)),
     );
   }
 }
