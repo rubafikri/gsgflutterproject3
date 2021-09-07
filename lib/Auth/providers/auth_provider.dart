@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audio_recorder/audio_recorder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,12 @@ import 'package:flutter_application_2/Auth/models/country_model.dart';
 import 'package:flutter_application_2/Auth/models/register_request.dart';
 import 'package:flutter_application_2/Auth/models/user_model.dart';
 import 'package:flutter_application_2/Auth/ui/auth_main_page.dart';
+import 'package:flutter_application_2/Auth/ui/login_page.dart';
 import 'package:flutter_application_2/chats/chat_page.dart';
 import 'package:flutter_application_2/chats/home_page.dart';
 import 'package:flutter_application_2/services/routes_helper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AuthProvider extends ChangeNotifier {
   List<UserModel> users;
@@ -100,7 +103,7 @@ class AuthProvider extends ChangeNotifier {
       await FirestoreHelper.firestoreHelper.addUserToFirestore(registerRequest);
       await AuthHelper.authHelper.verifyEmail();
       await AuthHelper.authHelper.logout();
-      tabController.animateTo(1);
+      RouteHelper.routeHelper.goToPage(LoginPage.routeName);
     } on Exception catch (e) {
       // TODO
     }
@@ -146,7 +149,7 @@ class AuthProvider extends ChangeNotifier {
     if (isLoggedIn) {
       this.myId = AuthHelper.authHelper.getUserId();
       getAllUsers();
-      RouteHelper.routeHelper.goToPageWithReplacement(ChatPage.routName);
+      RouteHelper.routeHelper.goToPageWithReplacement(ChatPage.routeName);
     } else {
       RouteHelper.routeHelper.goToPageWithReplacement(AuthMainPage.routeName);
     }
@@ -191,5 +194,35 @@ class AuthProvider extends ChangeNotifier {
     await FirestoreHelper.firestoreHelper.updateProfile(userModel);
     getUserFromFirestore();
     Navigator.of(RouteHelper.routeHelper.navKey.currentContext).pop();
+  }
+
+  sendImageToChat([String message]) async {
+    Directory directory = await getApplicationDocumentsDirectory();
+
+    bool hasPermissions = await AudioRecorder.hasPermissions;
+
+// Get the state of the recorder
+    bool isRecording = await AudioRecorder.isRecording;
+
+// Start recording
+    await AudioRecorder.start(
+        path: directory.path + '/aaa',
+        audioOutputFormat: AudioOutputFormat.AAC);
+
+    await Future.delayed(Duration(seconds: 5));
+    Recording recording = await AudioRecorder.stop();
+    print(
+        "Path : ${recording.path},  Format : ${recording.audioOutputFormat},  Duration : ${recording.duration},  Extension : ${recording.extension},");
+
+    XFile file = await ImagePicker().pickImage(source: ImageSource.gallery);
+    File file2 = File(recording.path);
+    String imageUrl = await FirebaseStorageHelper.firebaseStorageHelper
+        .uploadImage(file2, 'chats');
+    FirestoreHelper.firestoreHelper.addMessageTofirestore({
+      'userId': this.myId,
+      'dateTime': DateTime.now(),
+      'message': message ?? '',
+      'imageUrl': imageUrl
+    });
   }
 }

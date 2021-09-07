@@ -11,8 +11,11 @@ class SplachScreen extends StatelessWidget {
         Provider.of<AuthProvider>(context, listen: false).checkLogin());
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Color(0xff1F1F1F),
       body: Center(
-        child: Text('Splach Screen'),
+        child: Image.asset(
+          'assets/images/logo.png',
+        ),
       ),
     );
   }

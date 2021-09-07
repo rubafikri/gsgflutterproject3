@@ -27,7 +27,7 @@ void main() {
             AuthMainPage.routeName: (context) => AuthMainPage(),
             UsersPage.routeName: (context) => UsersPage(),
             ProfilePage.routeName: (context) => ProfilePage(),
-            ChatPage.routName: (context) => ChatPage(),
+            ChatPage.routeName: (context) => ChatPage(),
           },
           navigatorKey: RouteHelper.routeHelper.navKey,
           home: FirebaseConfiguration())));

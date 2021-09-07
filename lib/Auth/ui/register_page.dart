@@ -13,81 +13,126 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Consumer<AuthProvider>(
-      builder: (context, provider, x) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  provider.selectFile();
-                },
-                child: Container(
-                  height: 200,
-                  width: 200,
-                  color: Colors.grey,
-                  child: provider.file == null
-                      ? Container()
-                      : Image.file(provider.file, fit: BoxFit.cover),
+    return Scaffold(
+      backgroundColor: Color(0xff1F1F1F),
+      body: Consumer<AuthProvider>(
+        builder: (context, provider, x) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: 100, bottom: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      provider.selectFile();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Color(0xffFA4C60)),
+                        borderRadius: BorderRadius.circular(200),
+                        color: Colors.grey,
+                      ),
+                      height: 200,
+                      width: 200,
+                      child: provider.file == null
+                          ? Icon(Icons.person_add)
+                          : Container(
+                              width: 190.0,
+                              height: 190.0,
+                              decoration: new BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: FileImage(provider.file)))),
+                    ),
+                  ),
                 ),
-              ),
-              CustomTextfield('FirstName', provider.firstNameController),
-              CustomTextfield('LastName', provider.lastNameController),
-              CustomTextfield('Email', provider.emailController),
-              CustomTextfield('Password', provider.passwordController),
-              provider.countries == null
-                  ? Container()
-                  : Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: DropdownButton<CountryModel>(
-                        isExpanded: true,
-                        underline: Container(),
-                        value: provider.selectedCountry,
-                        onChanged: (x) {
-                          provider.selectCountry(x);
-                        },
-                        items: provider.countries.map((e) {
-                          return DropdownMenuItem<CountryModel>(
-                            child: Text(e.name),
-                            value: e,
-                          );
-                        }).toList(),
-                      ),
+                Container(
+                  padding: EdgeInsets.only(left: 20, bottom: 10),
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.8),
+                      fontSize: 20,
                     ),
-              provider.countries == null
-                  ? Container()
-                  : Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: DropdownButton<dynamic>(
-                        isExpanded: true,
-                        underline: Container(),
-                        value: provider.selectedCity,
-                        onChanged: (x) {
-                          provider.selectCity(x);
-                        },
-                        items: provider.cities.map((e) {
-                          return DropdownMenuItem<dynamic>(
-                            child: Text(e),
-                            value: e,
-                          );
-                        }).toList(),
+                  ),
+                ),
+                CustomTextfield('FirstName', provider.firstNameController),
+                CustomTextfield('LastName', provider.lastNameController),
+                CustomTextfield('Email', provider.emailController),
+                CustomTextfield('Password', provider.passwordController),
+                provider.countries == null
+                    ? Container()
+                    : Container(
+                        padding: EdgeInsets.all(7),
+                        margin: EdgeInsets.only(
+                          left: 33,
+                          right: 30,
+                          top: 10,
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.2),
+                            border: Border.all(color: Color(0xffFA4C60)),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: DropdownButton<CountryModel>(
+                          dropdownColor: Colors.black,
+                          isExpanded: true,
+                          underline: Container(),
+                          value: provider.selectedCountry,
+                          onChanged: (x) {
+                            provider.selectCountry(x);
+                          },
+                          items: provider.countries.map((e) {
+                            return DropdownMenuItem<CountryModel>(
+                              child: Text(
+                                e.name,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              value: e,
+                            );
+                          }).toList(),
+                        ),
                       ),
-                    ),
-              CustomButton(provider.register, 'Register'),
-            ],
-          ),
-        );
-      },
+                provider.countries == null
+                    ? Container()
+                    : Container(
+                        padding: EdgeInsets.all(7),
+                        margin: EdgeInsets.only(
+                          left: 33,
+                          right: 30,
+                          top: 10,
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.2),
+                            border: Border.all(color: Color(0xffFA4C60)),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: DropdownButton<dynamic>(
+                          dropdownColor: Colors.black,
+                          style: TextStyle(color: Colors.black),
+                          isExpanded: true,
+                          underline: Container(),
+                          value: provider.selectedCity,
+                          onChanged: (x) {
+                            provider.selectCity(x);
+                          },
+                          items: provider.cities.map((e) {
+                            return DropdownMenuItem<dynamic>(
+                              child: Text(
+                                e,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              value: e,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                CustomButton(provider.register, 'Register', 0xff2B2B2B),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
