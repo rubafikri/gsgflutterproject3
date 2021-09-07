@@ -1,6 +1,10 @@
 # flutter_application_2
 
 A new Flutter project.
+![Screenshot_20210907-092148 1](https://user-images.githubusercontent.com/43495147/132318063-32dccdd8-55a9-4eab-a177-00f39ab69c23.jpg)
+![Screenshot_20210907-091937 1](https://user-images.githubusercontent.com/43495147/132318231-86e3f334-fe8d-4c60-9605-94c89dd8cb6e.jpg)
+![Screenshot_20210907-091945 1](https://user-images.githubusercontent.com/43495147/132318270-1c8a369b-ccd2-45fa-8487-babd3dac75f5.jpg)
+
 
 ## Getting Started
 
