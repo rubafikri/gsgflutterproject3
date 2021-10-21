@@ -1,33 +1,39 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/chats/chat_page.dart';
-import 'package:flutter_application_2/chats/users_page.dart';
-import 'package:flutter_application_2/splach_screen.dart';
-
+import 'package:flutter_application_2/Admin/addProduct.dart';
+import 'package:flutter_application_2/Admin/controlPannel.dart';
+import 'package:flutter_application_2/Admin/provider/adminProvider.dart';
+import 'package:flutter_application_2/Admin/viewAllProduct.dart';
+import 'package:flutter_application_2/Auth/UI/Auth.dart';
+import 'package:flutter_application_2/Auth/UI/Login.dart';
+import 'package:flutter_application_2/Auth/UI/Signup.dart';
+import 'package:flutter_application_2/Auth/UI/Splash.dart';
+import 'package:flutter_application_2/home/UI/Home.dart';
+import 'package:flutter_application_2/services/routes_helper.dart';
 import 'package:provider/provider.dart';
-
-import 'Auth/providers/auth_provider.dart';
-import 'Auth/ui/auth_main_page.dart';
-import 'Auth/ui/login_page.dart';
-import 'Auth/ui/register_page.dart';
-import 'Auth/ui/reset_password_page.dart';
-import 'chats/home_page.dart';
-import 'chats/profile_page.dart';
-import 'services/routes_helper.dart';
+import 'Auth/provider/auth_provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider<AuthProvider>(
-      create: (context) => AuthProvider(),
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider<AdminProvider>(
+          create: (context) => AdminProvider(),
+        ),
+      ],
       child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           routes: {
-            LoginPage.routeName: (context) => LoginPage(),
-            RegisterPage.routeName: (context) => RegisterPage(),
-            ResetPasswordPage.routeName: (context) => ResetPasswordPage(),
-            HomePage.routeName: (context) => HomePage(),
-            AuthMainPage.routeName: (context) => AuthMainPage(),
-            UsersPage.routeName: (context) => UsersPage(),
-            ProfilePage.routeName: (context) => ProfilePage(),
-            ChatPage.routeName: (context) => ChatPage(),
+            LoginScreen.routeName: (context) => LoginScreen(),
+            SignUpScreen.routeName: (context) => SignUpScreen(),
+            HomeScreen.routeName: (context) => HomeScreen(),
+            AuthMainScreen.routeName: (context) => AuthMainScreen(),
+            ControlPannelScreen.routeName: (context) => ControlPannelScreen(),
+            AddProductScreen.routeName: (context) => AddProductScreen(),
+            ViewAllProductsScreen.routeName: (context) =>
+                ViewAllProductsScreen(),
           },
           navigatorKey: RouteHelper.routeHelper.navKey,
           home: FirebaseConfiguration())));
@@ -36,7 +42,6 @@ void main() {
 class FirebaseConfiguration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return FutureBuilder<FirebaseApp>(
         future: Firebase.initializeApp(),
         builder: (context, AsyncSnapshot<FirebaseApp> dataSnapShot) {
@@ -49,7 +54,7 @@ class FirebaseConfiguration extends StatelessWidget {
             );
           }
           if (dataSnapShot.connectionState == ConnectionState.done) {
-            return SplachScreen();
+            return ControlPannelScreen();
           }
           return Scaffold(
             body: Center(

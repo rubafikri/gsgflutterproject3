@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_2/Auth/helpers/auth_helper.dart';
-import 'package:flutter_application_2/Auth/models/country_model.dart';
+import 'package:flutter_application_2/Auth/models/UserModel.dart';
 import 'package:flutter_application_2/Auth/models/register_request.dart';
-import 'package:flutter_application_2/Auth/models/user_model.dart';
 
 class FirestoreHelper {
   FirestoreHelper._();
@@ -46,19 +45,6 @@ class FirestoreHelper {
         docs.map((e) => UserModel.fromMap(e.data())).toList();
 
     return users;
-  }
-
-  Future<List<CountryModel>> getAllCountries() async {
-    try {
-      QuerySnapshot<Map<String, dynamic>> querySnapshot =
-          await firebaseFirestore.collection('countries').get();
-      List<CountryModel> countries = querySnapshot.docs.map((e) {
-        Map map = e.data();
-        map['id'] = e.id;
-        return CountryModel.fromJson(map);
-      }).toList();
-      return countries;
-    } on Exception catch (e) {}
   }
 
   updateProfile(UserModel userModel) async {
